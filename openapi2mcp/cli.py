@@ -105,7 +105,7 @@ def extract_tools_from_specs(spec_files: List[str]):
     
     return all_tools
 
-async def serve_command(args):
+def serve_command(args):
     """Run the MCP server."""
     logger.info(f"Starting OpenAPI2MCP server with {len(args.spec_file)} OpenAPI spec(s)")
     
@@ -115,6 +115,16 @@ async def serve_command(args):
     # Create MCP server
     server = MCPServer(spec_files=args.spec_file, auth_config=auth_config)
     
+    # Print available tools
+    logger.info("Available tools:")
+    if server.tools:
+        for i, tool in enumerate(server.tools, 1):
+            tool_name = tool.get('name', 'Unnamed tool')
+            tool_description = tool.get('description', 'No description').split('\n')[0]
+            logger.info(f"{i}. {tool_name} - {tool_description}")
+    else:
+        logger.info("No tools available.")
+
     # Run the server
     app = server.get_app()
     
@@ -140,7 +150,8 @@ def main():
     setup_logging(args.log_level)
     
     if args.command == "serve":
-        asyncio.run(serve_command(args))
+        # asyncio.run(serve_command(args)) # Changed: Call directly
+        serve_command(args)
     elif args.command == "convert":
         asyncio.run(convert_command(args))
     else:

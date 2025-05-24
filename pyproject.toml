@@ -19,7 +19,10 @@ dependencies = [
     "openapi3-parser>=1.1.0",
     "requests>=2.31.0",
     "python-dotenv>=1.0.0",
-    "sse-starlette>=1.6.5"
+    "sse-starlette>=1.6.5",
+    "aiohttp>=3.11.18",
+    "prance>=25.4.8.0",
+    "fastmcp>=2.4.0",
 ]
 
 [project.optional-dependencies]
